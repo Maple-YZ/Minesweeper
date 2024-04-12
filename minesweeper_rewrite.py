@@ -1,4 +1,5 @@
 import pygame
+import sys
 
 class Game():
 
@@ -13,7 +14,10 @@ class Game():
 
     def run(self) -> None:
         while True:
-            pass
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    sys.exit()
+            pygame.display.update()
 
     def draw(self, slot, draw_type):
         self.screen.blit(draw_type, self.slot_to_pos(slot))
