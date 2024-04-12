@@ -1,16 +1,41 @@
 import pygame
 import sys
+import os
+
+
+class Clickable():
+    def __init__(self, border: tuple[int], ) -> None:
+        self.border = border
+        self.clicked = False
+    
+    def press_on(self):
+        self.clicked = True
+        
+    def release_on(self):
+        self.clicked = False
+
+
+class Plot(Clickable):
+    def __init__(self, border: tuple[int]) -> None:
+        super().__init__(border)
+
 
 class Game():
 
     def __init__(self, window_size = (375, 375), ) -> None:
         self._window_size = window_size
+        self.resouce = dict()
+    
+    def init_window(self) -> None:
+        pygame.init()
         self.screen = pygame.display.set_mode(self._window_size)
-
-    def config(self, window_size=None):
-        if window_size:
-            self._window_size = window_size
-            self.screen
+        pygame.display.set_caption("minesweeperV1.0")
+        pygame.display.set_icon(self.resouce["boom"])
+    
+    def load_resource(self) -> None:
+        for file in os.listdir('resource'):
+            if file.endswith('.png'):
+                self.resouce[file[:-4]] = pygame.image.load(f'resource/{file}')
 
     def run(self) -> None:
         while True:
@@ -32,4 +57,6 @@ class Game():
 
 if __name__ == "__main__":
     game = Game()
+    game.load_resource()
+    game.init_window()
     game.run()
